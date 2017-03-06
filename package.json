@@ -1,0 +1,24 @@
+{
+  "name": "mypixelbox",
+  "version": "1.0.0",
+  "description": "application to upload and share pictures",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suryatejaswi89/MyPixelBox.git"
+  },
+  "author": "Tejaswi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suryatejaswi89/MyPixelBox/issues"
+  },
+  "homepage": "https://github.com/suryatejaswi89/MyPixelBox#readme",
+  "dependencies": {
+    "aws-sdk": "2.x",
+    "ejs": "2.x",
+    "express": "^4.15.0"
+  }
+}
