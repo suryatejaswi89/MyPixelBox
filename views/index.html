@@ -1,65 +1,26 @@
+<!-- views/index.ejs -->
+<!doctype html>
 <html>
 <head>
-  <title>User Registration</title>
+    <title>My Pixel Box</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
 </head>
 <body>
-  <h1>Register your account</h1>
-  <h2>Your avatar</h2>
-<input type="file" id="file-input">
-<img id="preview" src="/avatar.png" height="42" width="42">
-<form method="POST" action="">
-  <input type="hidden" id="avatar-url" name="avatar-url">
-  <input type="submit" value="Upload">
-</form>
-<script>
-function uploadFile(file, signedRequest, url){
-  const xhr = new XMLHttpRequest();
-  xhr.open('PUT',signedRequest);
-  xhr.onreadystatechange = ()=>{
-    if(xhr.readystate === 4){
-      if(xhr.status === 200){
-        document.getElementById('preview').src = url;
-        document.getElementById('avatar-url').value = url;
+<div class="container">
 
-      }
-      else{
-        alert('couldnot upload the file');
-      }
-    }
-  };
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-lock"></span> My Pixel Box</h1>
 
-  xhr.send(file);
-}
+        <p>Login or Register with:</p>
 
-function getSignedRequest(file){
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'sign-s3?file-name='+file.name+'&file-type='+file.type);
-  xhr.onreadystatechange = () =>
-  {
-    if(xhr.readyState === 4){
-      if(xhr.status === 200){
-        const response = JSON.parse(xhr.responseText);
-        uploadFile(file, response.signedRequest, response.url)
-      }
-      else{
-        alert('could not get signed url');
-      }
-    }
-  };
-  xhr.send();
-}
+        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+    </div>
 
-document.getElementById('file-input').onchange = function(){
-  const files =   document.getElementById('file-input').files;
-  const file = files[0];
-  if(file == null){
-    return al ert('No file selected');
-
-  }
-  getSignedRequest(file);
-}
-
-
-</script>
+</div>
 </body>
 </html>
