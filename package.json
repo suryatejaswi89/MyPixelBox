@@ -1,37 +1,22 @@
 {
-  "name": "mypixelbox",
-  "version": "1.0.0",
-  "description": "application to upload and share pictures",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/suryatejaswi89/MyPixelBox.git"
-  },
-  "author": "Tejaswi",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/suryatejaswi89/MyPixelBox/issues"
-  },
-  "homepage": "https://github.com/suryatejaswi89/MyPixelBox#readme",
+  "name": "pixeldrop",
+  "main": "server.js",
   "dependencies": {
-    "aws-sdk": "2.x",
-    "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.17.1",
-    "connect-flash": "^0.1.1",
-    "cookie-parser": "^1.4.3",
-    "ejs": "2.x",
-    "express": "^4.15.0",
-    "express-session": "^1.15.1",
-    "method-override": "^2.3.7",
-    "mongoose": "^4.8.6",
-    "morgan": "^1.8.1",
-    "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1",
-    "passport-google-oauth": "^1.0.0",
-    "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.4"
+    "bcrypt-nodejs": "latest",
+    "body-parser": "~1.0.0",
+    "connect-flash": "~0.1.1",
+    "cookie-parser": "~1.0.0",
+    "ejs": "~0.8.5",
+    "express": "~4.0.0",
+    "express-session": "~1.0.0",
+    "git": "^0.1.5",
+    "method-override": "~1.0.0",
+    "mongoose": "~3.8.1",
+    "morgan": "~1.0.0",
+    "passport": "~0.1.17",
+    "passport-facebook": "~1.0.2",
+    "passport-google-oauth": "~0.1.5",
+    "passport-local": "~0.1.6",
+    "passport-twitter": "~1.0.2"
   }
 }
