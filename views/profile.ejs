@@ -3,38 +3,58 @@
 <html>
 <head>
     <title>Pixel Drop</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <style>
-        body        { padding-top:80px; word-wrap:break-word; }
+        body {
+            padding-top: 80px;
+            word-wrap: break-word;
+        }
     </style>
 </head>
+
 <body>
-<div class="container">
-
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
-
-    <div class="row">
-
-
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
-
+    <div class="container">
+      <div class="page-header text-center">
+            <h1><span class="fa"></span> <%=user.google.name %></h1>
+            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="well">
+                    <!--<h3 class="text-primary"><span class="fa fa-google-plus"></span> Google</h3> -->
                     <p>
-                        <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>token</strong>: <%= user.facebook.token %><br>
-                        <strong>email</strong>: <%= user.facebook.email %><br>
-                        <strong>name</strong>: <%= user.facebook.name %>
-                    </p>
+                        Welcome
+                        <%= user.google.name %><br>
+                            <%= user.google.email %><br>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".upload-image-modal">Upload</button>
+                                <div class="modal fade upload-image-modal" tabindex="-1" role="dialog" aria-labelledby="uploading image modal">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                          <div class ="modal-header">
+                                          <button type= "button" class="close" data-dismiss ="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+                                          <h4 class="modal-title">Select an image to upload</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                           <input type="file" name="image" style = "padding:5px 10px;" accept="image/*" >
+                                           <label>  <input type="checkbox" style="padding:5px 10px 5px 10px;" autocomplete="off"> Encrypt
+                                           </label>
+                                        </div>
+                                        <div class="modal-footer">
+                                           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                           <button type="submit" class="btn btn-primary">Save Image</button>
+                                         </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                          </p>
+                </div>
             </div>
         </div>
     </div>
-
-</div>
+    <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
+
 </html>
