@@ -1,5 +1,5 @@
 // app/routes.js
-module.exports = function(app, passport) {
+module.exports = function(app, passport, aws) {
 
     // =====================================
     // HOME PAGE (with login links) ========
@@ -43,6 +43,7 @@ module.exports = function(app, passport) {
         successRedirect : '/profile', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
+
     }));
 
 
@@ -84,6 +85,42 @@ app.get('/auth/google/callback',
                 successRedirect : '/profile',
                 failureRedirect : '/'
         }));
+
+        // =====================================
+        // Routes for s3 upload ========
+        // =====================================
+
+        app.get('/sign-s3', (req, res) => {
+          const S3_BUCKET = 'mypixelbox';
+          const s3 = new aws.S3();
+          const fileName = req.query['file-name'];
+          const fileType = req.query['file-type'];
+          const s3Params = {
+            Bucket: S3_BUCKET,
+            Key: fileName,
+            Expires: 60,
+            ContentType: fileType,
+            ACL: 'public-read',
+            ServerSideEncryption: 'AES256'
+          };
+
+          s3.getSignedUrl('putObject', s3Params, (err, data) => {
+            if(err){
+              console.log(err);
+              return res.end();
+            }
+            const returnData = {
+              signedRequest: data,
+              url: `https://mypixelbox.s3.amazonaws.com/${fileName}`
+            };
+            res.write(JSON.stringify(returnData));
+            res.end();
+          });
+        });
+
+        app.post('/save-details', (req, res) => {
+         console.log(req);
+        });
 
 };
 

@@ -9,6 +9,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var aws = require('aws-sdk');
+//aws.config.loadFromPath('./config.json');
+//s3 = new AWS.S3({apiVersion: '2006-03-01'});
+
 
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -36,7 +39,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./app/routes.js')(app, passport, aws); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
 app.listen(port);

@@ -1,6 +1,7 @@
 <!-- views/profile.ejs -->
 <!doctype html>
 <html>
+
 <head>
     <title>Pixel Drop</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
@@ -15,19 +16,22 @@
 
 <body>
     <div class="container">
-      <div class="page-header text-center">
-            <h1><span class="fa"></span> <%=user.google.name %></h1>
-            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="well">
-                    <!--<h3 class="text-primary"><span class="fa fa-google-plus"></span> Google</h3> -->
-                    <p>
-                        Welcome
-                        <%= user.google.name %><br>
-                            <%= user.google.email %><br>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".upload-image-modal">Upload</button>
+        <div class="page-header text-center">
+            <a href="/logout" class="btn btn-primary">Logout</a>
+            <div class="row">
+
+                <!-- LOCAL INFORMATION -->
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h3><span class="fa fa-user"></span> Local</h3>
+
+                        <p>
+                            <strong>Welcome </strong>:
+                            <%= user.local.email%><br>
+                            <strong>Welcome </strong>:
+                            <%= user._id%><br>
+                        </p>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".upload-image-modal">Upload</button>
                                 <div class="modal fade upload-image-modal" tabindex="-1" role="dialog" aria-labelledby="uploading image modal">
                                     <div class="modal-dialog modal-sm" role="document">
                                         <div class="modal-content">
@@ -36,23 +40,66 @@
                                           <h4 class="modal-title">Select an image to upload</h4>
                                         </div>
                                         <div class="modal-body">
-                                           <input type="file" name="image" style = "padding:5px 10px;" accept="image/*" >
+                                           <input type="file" name="image" id="image-file" style = "padding:5px 10px;" accept="image/*" >
                                            <label>  <input type="checkbox" style="padding:5px 10px 5px 10px;" autocomplete="off"> Encrypt
                                            </label>
                                         </div>
                                         <div class="modal-footer">
                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                           <button type="submit" class="btn btn-primary">Save Image</button>
+                                           <button type="submit" class="btn btn-primary" onclick="getSignedRequest()">Save Image</button>
                                          </div>
 
                                         </div>
-                                    </div>
-                                </div>
-                          </p>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
+    <script>
+    function getSignedRequest(){
+      console.log('I came here');
+      const files =  document.getElementById('image-file').files;
+      const file = files[0];
+      if(file == null){
+        return alert('No File Selected');
+        }
+      else{const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'sign-s3?file-name='+file.name+'&file-type='+file.type);
+      xhr.onreadystatechange = () =>
+      {
+        if(xhr.readyState === 4){
+          if(xhr.status === 200){
+            const response = JSON.parse(xhr.responseText);
+            uploadFile(file, response.signedRequest, response.url)
+          }
+          else{
+            alert('could not get signed url');
+          }
+        }
+      };
+      xhr.send();
+        }
+
+}
+function uploadFile(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT',signedRequest);
+  xhr.onreadystatechange = ()=>{
+    if(xhr.readystate === 4){
+      if(xhr.status === 200){
+        document.getElementById('preview').src = url;
+        document.getElementById('avatar-url').value = url;
+      }
+      else{
+        alert('couldnot upload the file');
+      }
+    }
+  };
+  xhr.send(file);
+}
+      </script>
+
     <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
