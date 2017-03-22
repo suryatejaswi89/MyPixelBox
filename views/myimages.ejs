@@ -1,0 +1,45 @@
+<!doctype html>
+
+<head>
+    <title>Pixel Drop</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body {
+            padding-top: 80px;
+            word-wrap: break-word;
+        }
+        .image-size{
+          height : 11em;
+          width  : 11em;
+          margin : 1em;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+            <div class="container-fluid">
+              <div class="row"><a href="/logout" class="btn btn-primary">Logout</a></div>
+              <div class="row">
+                <ul>
+                    <% for(var i=0; i<bucketContents.length; i++) {%>
+
+                          <div class="col-lg-2 col-sm-3 col-xs-4">
+                          <img src ="<%= 'https://s3.amazonaws.com/mypixelbox/' + bucketContents[i].Key %>"  class="img-responsive image-size">
+                          </div>
+
+                        <% } %>
+                </ul>
+              </div>
+            </div>
+
+
+            <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

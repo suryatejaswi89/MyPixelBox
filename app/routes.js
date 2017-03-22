@@ -1,24 +1,19 @@
 // app/routes.js
-var user = require('./models/user');
 module.exports = function(app, passport, aws) {
-
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
         res.render('index.ejs'); // load the index.ejs file
     });
-
     // =====================================
     // LOGIN ===============================
     // =====================================
     // show the login form
     app.get('/login', function(req, res) {
-
         // render the page and pass in any flash data if it exists
-        res.render('login.ejs', { message: req.flash('loginMessage') });
+          res.render('login.ejs', { message: req.flash('loginMessage') });
     });
-
     // process the login form
     // app.post('/login', do all our passport stuff here);
     // process the login form
@@ -27,7 +22,6 @@ module.exports = function(app, passport, aws) {
        failureRedirect : '/login', // redirect back to the signup page if there is an error
        failureFlash : true // allow flash messages
    }));
-
     // =====================================
     // SIGNUP ==============================
     // =====================================
@@ -37,17 +31,13 @@ module.exports = function(app, passport, aws) {
         // render the page and pass in any flash data if it exists
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
-
     // process the signup form
     // app.post('/signup', do all our passport stuff here);
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/profile', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
-
     }));
-
-
     // =====================================
     // PROFILE SECTION =====================
     // =====================================
@@ -68,10 +58,7 @@ module.exports = function(app, passport, aws) {
             successRedirect : '/profile',
             failureRedirect : '/'
         }));
-
-
-
-    // =====================================
+  // =====================================
     // LOGOUT ==============================
     // =====================================
     app.get('/logout', function(req, res) {
@@ -86,11 +73,9 @@ app.get('/auth/google/callback',
                 successRedirect : '/profile',
                 failureRedirect : '/'
         }));
-
         // =====================================
         // Routes for s3 upload ========
         // =====================================
-
         app.get('/sign-s3', (req, res) => {
           const S3_BUCKET = 'mypixelbox';
           const s3 = new aws.S3();
@@ -104,7 +89,6 @@ app.get('/auth/google/callback',
             ACL: 'public-read',
             ServerSideEncryption: 'AES256'
           };
-
           s3.getSignedUrl('putObject', s3Params, (err, data) => {
             if(err){
               console.log(err);
@@ -114,15 +98,38 @@ app.get('/auth/google/callback',
               signedRequest: data,
               url: `https://mypixelbox.s3.amazonaws.com/${fileName}`
             };
-            res.write(JSON.stringify(returnData));
+          res.write(JSON.stringify(returnData));
             res.end();
           });
-        });
 
+        });
         app.post('/save-details', (req, res) => {
          console.log(req);
         });
+        //route for viewing images
+        app.get('/showImages',(req,res) => {
+          console.log(req.user.id.toString());
+          const S3_BUCKET = 'mypixelbox';
 
+          const s3 = new aws.S3();
+          const s3Params = {
+            Bucket: S3_BUCKET,
+            EncodingType: 'url',
+            Prefix: req.user._id.toString()
+          };
+
+          s3.listObjects(s3Params, function(err , data){
+
+            if(err) console.log(err, err.stack);
+            else {
+              var bucketContents = data.Contents;
+              res.render('myimages.ejs', {
+                  bucketContents: bucketContents
+              });
+            }
+          })
+
+        });
 };
 
 // route middleware to make sure a user is logged in
