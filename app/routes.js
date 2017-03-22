@@ -1,4 +1,5 @@
 // app/routes.js
+var user = require('./models/user');
 module.exports = function(app, passport, aws) {
 
     // =====================================
@@ -97,7 +98,7 @@ app.get('/auth/google/callback',
           const fileType = req.query['file-type'];
           const s3Params = {
             Bucket: S3_BUCKET,
-            Key: fileName,
+            Key: req.user._id+'/'+fileName,
             Expires: 60,
             ContentType: fileType,
             ACL: 'public-read',
